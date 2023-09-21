@@ -1,4 +1,5 @@
 #!/bin/bash
+
 service mariadb start 
 
 mariadb -u root -e "CREATE USER IF NOT EXISTS 'usef'@'%' IDENTIFIED BY '1234';"
