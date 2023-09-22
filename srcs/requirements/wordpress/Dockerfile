@@ -14,7 +14,4 @@ RUN chmod +x script.sh
 
 RUN service php7.4-fpm start
 
-ENTRYPOINT [ "./script.sh" ]
-
-CMD [ "php-fpm7.4", "-R" "-F" ]
-
+CMD [ "./script.sh" ]
