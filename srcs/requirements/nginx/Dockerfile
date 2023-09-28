@@ -15,8 +15,6 @@ RUN mkdir -p /var/run/nginx
 
 COPY ./conf/nginx.conf  /etc/nginx/conf.d/nginx.conf
 
-COPY index.html /var/www/html
-
 RUN chmod 755 /var/www/html
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]

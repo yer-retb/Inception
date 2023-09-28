@@ -4,6 +4,8 @@ RUN apt update -y
 
 RUN apt upgrade -y
 
+ARG MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD MYSQL_ROOT_PASSWORD
+
 RUN apt-get install mariadb-server -y
 
 COPY ./tools/script.sh ./script.sh

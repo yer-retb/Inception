@@ -4,6 +4,8 @@ RUN apt update -y && apt upgrade -y
 
 RUN apt-get install -y php7.4 php-fpm php-mysql mariadb-client curl
 
+WORKDIR /var/www/html/
+
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp

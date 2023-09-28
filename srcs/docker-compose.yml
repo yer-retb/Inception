@@ -2,12 +2,68 @@ version: '3'
 
 services:
   nginx:
-    build:
-      context: .
-      dockerfile: /requirements/nginx/Dockerfile
     container_name: nginx
-    # depends_on:
-    #   - wordpress
+    env_file:
+      - .env
+    volumes:
+      - wordpress:/var/www/html
+    build:
+      context: ./requirements/nginx/
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
-      
+    restart : on-failure
+    networks:
+      - mynetwork
+  
+  wordpress:
+    container_name: wordpress
+    env_file:
+      - .env
+    volumes:
+      - wordpress:/var/www/html
+    build:
+      context: ./requirements/wordpress/
+    depends_on:
+      - mariadb
+    restart : on-failure
+    networks:
+      - mynetwork
+
+  mariadb:
+    container_name: mariadb
+    env_file:
+      - .env
+    volumes:
+      - mariadb:/var/lib/mysql
+    build:
+      context: ./requirements/mariadb/
+      args:
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD : ${MYSQL_PASSWORD}
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    restart : unless-stopped
+    networks:
+      - mynetwork
+
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/yer-retb/data/mariadb
+    name: db_volume
+  wordpress:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/yer-retb/data/wordpress
+    name: wp_volume
+  
+networks:
+  mynetwork:
+    driver: bridge
