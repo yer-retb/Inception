@@ -8,6 +8,8 @@ ARG MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD MYSQL_ROOT_PASSWORD
 
 RUN apt-get install mariadb-server -y
 
+RUN apt-get install sudo -y
+
 COPY ./tools/script.sh ./script.sh
 
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
